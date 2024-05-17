@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import StackScreen from './src/routes/stacks';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlobalProvider } from './src/contexts/globalContext';
-
+//hola mundo
 export default function App() {
 
         return (
