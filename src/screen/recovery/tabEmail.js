@@ -12,7 +12,6 @@ const TabEmail = ({ navigation }) => {
       const response = await axios.post(`${API_URL}/emails/send-recovery-code`, { email });
       if (response.data.success) {
         Alert.alert('Código enviado', 'Revisa tu correo electrónico para el código de recuperación.');
-        // Aquí podrías almacenar el código temporalmente para validar en la siguiente pantalla
         navigation.navigate('entercode', { email });
       } else {
         Alert.alert('Error', 'No se pudo enviar el correo. Por favor, inténtalo de nuevo.');
