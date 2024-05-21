@@ -1,35 +1,55 @@
-import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
-import { Button, Image, Input, TabView } from '@rneui/themed'
+import React, { useState } from 'react';
+import { View, Text, ScrollView, Alert } from 'react-native';
+import { Button, Image, Input, TabView } from '@rneui/themed';
+import axios from 'axios'; // Asegúrate de que axios esté instalado
+import { API_URL } from '../../utils/constants'; // Ajusta la ruta según la ubicación de tu archivo de constantes
 
 const TabEmail = ({ navigation }) => {
-        return (
-                <TabView.Item style={{ flex: 1 }}>
-                        <ScrollView keyboardDismissMode='interactive'>
-                                <View style={{
-                                        flex: 1,
-                                        alignItems: 'center'
-                                }}>
-                                        <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 10 }}>Recuperar contraseña</Text>
-                                        <Image source={require('../../../assets/icons/candado.png')} style={{ width: 130, height: 130 }} />
-                                        <Text numberOfLines={2} style={{ paddingHorizontal: 20, textAlign: 'center', fontSize: 16 }}>Ingresa tu correo electronico
-                                                para poder recuperar tu cuenta</Text>
-                                        <Input
-                                                leftIcon={<Image source={require('../../../assets/icons/icons8-correo-100.png')} style={{ width: 30, height: 30 }} />}
-                                                label='Correo'
-                                                keyboardType='email-address'
-                                        />
-                                        <Button
-                                                onPress={() => navigation.navigate('entercode')}
-                                                title='Enviar'
-                                                color='#48A2E2'
-                                                containerStyle={{ width: '60%', borderRadius: 20 }}
-                                                titleStyle={{ fontWeight: 'bold' }}
-                                        />
-                                </View>
-                        </ScrollView>
-                </TabView.Item>
-        )
-}
+  const [email, setEmail] = useState('');
 
-export default TabEmail
+  const handleSendEmail = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/emails/send-recovery-code`, { email });
+      if (response.data.success) {
+        Alert.alert('Código enviado', 'Revisa tu correo electrónico para el código de recuperación.');
+        // Aquí podrías almacenar el código temporalmente para validar en la siguiente pantalla
+        navigation.navigate('entercode', { email });
+      } else {
+        Alert.alert('Error', 'No se pudo enviar el correo. Por favor, inténtalo de nuevo.');
+      }
+    } catch (error) {
+      console.error('Error al enviar correo:', error);
+      Alert.alert('Error', 'Ocurrió un error al enviar el correo. Por favor, inténtalo de nuevo.');
+    }
+  };
+
+  return (
+    <TabView.Item style={{ flex: 1 }}>
+      <ScrollView keyboardDismissMode='interactive'>
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', padding: 10 }}>Recuperar contraseña</Text>
+          <Image source={require('../../../assets/icons/candado.png')} style={{ width: 130, height: 130 }} />
+          <Text numberOfLines={2} style={{ paddingHorizontal: 20, textAlign: 'center', fontSize: 16 }}>
+            Ingresa tu correo electrónico para poder recuperar tu cuenta
+          </Text>
+          <Input
+            leftIcon={<Image source={require('../../../assets/icons/icons8-correo-100.png')} style={{ width: 30, height: 30 }} />}
+            label='Correo'
+            keyboardType='email-address'
+            value={email}
+            onChangeText={setEmail}
+          />
+          <Button
+            onPress={handleSendEmail}
+            title='Enviar'
+            color='#48A2E2'
+            containerStyle={{ width: '60%', borderRadius: 20 }}
+            titleStyle={{ fontWeight: 'bold' }}
+          />
+        </View>
+      </ScrollView>
+    </TabView.Item>
+  );
+};
+
+export default TabEmail;
