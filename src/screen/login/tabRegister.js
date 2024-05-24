@@ -57,6 +57,17 @@ const TabRegister = ({ tabSelected, setTabSelected }) => {
                 positionScreen: 0,
         });
 
+        const validateTextField = (text) => {
+                const regex = /^[A-Za-z]+$/;
+                return regex.test(text);
+        };
+
+        const validateCURP = (curp) => {
+                const regex = /^[A-Z]{4}\d{6}[A-Z]{6}\d{2}$/;
+                return regex.test(curp);
+        };
+
+
         const onSubmitRegister = async () => {
 
 
@@ -65,23 +76,35 @@ const TabRegister = ({ tabSelected, setTabSelected }) => {
                         gender: selectedIndex == 0 ? 'Masculino' : 'Femenino'
                 })
 
-                if (formRegister.curp == "") {
-                        Alert.alert('El campo curp es obligatorio')
+                if (!formRegister.curp) {
+                        Alert.alert('El campo curp es obligatorio');
+                        return;
+                } else if (!validateCURP(formRegister.curp)) {
+                        Alert.alert('El campo curp no es válido');
                         return;
                 }
 
-                if (formRegister.name == "") {
-                        Alert.alert('El campo nombre es obligatorio')
+                if (!formRegister.name) {
+                        Alert.alert('El campo nombre es obligatorio');
+                        return;
+                } else if (!validateTextField(formRegister.name)) {
+                        Alert.alert('El campo nombre solo debe contener letras');
                         return;
                 }
 
-                if (formRegister.lastName == "") {
-                        Alert.alert('El campo apellido paterno es obligatorio')
+                if (!formRegister.lastName) {
+                        Alert.alert('El campo apellido paterno es obligatorio');
+                        return;
+                } else if (!validateTextField(formRegister.lastName)) {
+                        Alert.alert('El campo apellido paterno solo debe contener letras');
                         return;
                 }
 
-                if (formRegister.motherLastName == "") {
-                        Alert.alert('El campo apellido materno es obligatorio')
+                if (!formRegister.motherLastName) {
+                        Alert.alert('El campo apellido materno es obligatorio');
+                        return;
+                } else if (!validateTextField(formRegister.motherLastName)) {
+                        Alert.alert('El campo apellido materno solo debe contener letras');
                         return;
                 }
 
@@ -165,7 +188,7 @@ const TabRegister = ({ tabSelected, setTabSelected }) => {
                 })
 
                 const result = await response.json()
-                if(result.error){
+                if (result.error) {
                         Alert.alert(result.error.toString())
                         return;
                 }

@@ -20,7 +20,12 @@ const Domicile = ({ formRegister, setFormRegister, setProgressBar, progressBar }
                                                 containerStyle={{ flex: 1 }}
                                                 leftIcon={<Image source={require('../../../assets/icons/icons8-código-postal-100.png')} style={{ width: 30, height: 30 }} />}
                                                 label='CP'
-                                                onChangeText={(value) => setFormRegister({ ...formRegister, address: { ...formRegister.address, cp: value } })}
+                                                keyboardType='numeric'
+                                                onChangeText={(value) => {
+                                                        if (/^\d*$/.test(value) && value.length <= 5) {
+                                                                setFormRegister({ ...formRegister, address: { ...formRegister.address, cp: value } });
+                                                        }
+                                                }}
                                                 value={formRegister.address.cp}
                                         />
                                         <Input
@@ -59,6 +64,7 @@ const Domicile = ({ formRegister, setFormRegister, setProgressBar, progressBar }
                                                 containerStyle={{ flex: 1 }}
                                                 leftIcon={<Image source={require('../../../assets/icons/icons8-hashtag-grande-96.png')} style={{ width: 30, height: 30 }} />}
                                                 label='Numero'
+                                                keyboardType='numeric'
                                                 onChangeText={(value) => setFormRegister({ ...formRegister, address: { ...formRegister.address, number: value } })}
                                                 value={formRegister.address.number}
                                         />

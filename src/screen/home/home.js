@@ -61,7 +61,28 @@ const Home = () => {
                         </View>
                         <Campaigns />
                         <View style={{ width: '100%', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', padding: 10 }} numberOfLines={2}>Importancia de las vacunas</Text>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', padding: 10, marginTop: -40 }} numberOfLines={2}>Importancia de las vacunas</Text>
+                                <View style={{ width: '100%', overflow: 'hidden', alignItems: 'center', borderRadius: 10 }}>
+                                        <Carousel
+                                                loop
+                                                width={width}
+                                                height={width / 2}
+                                                //autoPlay={true}
+                                                onSnapToItem={(index) => setProgress(index)}
+                                                data={listImagesSlider}
+                                                style={{ top: -20 }}
+                                                scrollAnimationDuration={1000}
+                                                pagingEnabled={true}
+                                                snapEnabled={true}
+                                                autoPlayInterval={3000}
+                                                renderItem={({ item, index }) => (
+                                                        <View>
+                                                                <Image source={item} style={{ width: width, height: '100%', resizeMode: 'contain', borderRadius: 10 }} />
+                                                        </View>
+                                                )
+                                                }
+                                        />
+                                </View>
                         </View>
                 </ScrollView>
         )

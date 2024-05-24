@@ -18,8 +18,9 @@ const GeneralData = ({ formRegister, setFormRegister, selectedIndex, setIndex, p
                                 <Input
                                         leftIcon={<Image source={require('../../../assets/icons/icons8-parte-delantera-de-tarjeta-bancaria-100.png')} style={{ width: 30, height: 30 }} />}
                                         label='Curp'
-                                        onChangeText={(value) => setFormRegister({ ...formRegister, curp: value })}
+                                        onChangeText={(value) => setFormRegister({ ...formRegister, curp: value.toUpperCase() })}
                                         value={formRegister.curp}
+                                        maxLength={18}
                                 />
                                 <Input
                                         leftIcon={<Image source={require('../../../assets/icons/icons8-usuario-masculino-en-círculo-100.png')} style={{ width: 30, height: 30 }} />}
@@ -53,7 +54,7 @@ const GeneralData = ({ formRegister, setFormRegister, selectedIndex, setIndex, p
                                                         <CheckBox
                                                                 title='Masculino'
                                                                 checked={selectedIndex === 0}
-                                                                
+
                                                                 onPress={() => setIndex(0)}
                                                                 checkedIcon="dot-circle-o"
                                                                 uncheckedIcon="circle-o"

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, Alert } from 'react-native';
 import { Button, Image, Input, TabView } from '@rneui/themed';
-import axios from 'axios'; // Asegúrate de que axios esté instalado
-import { API_URL } from '../../utils/constants'; // Ajusta la ruta según la ubicación de tu archivo de constantes
+import axios from 'axios'; 
+import { API_URL } from '../../utils/constants'; 
 
 const TabEmail = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -18,6 +18,7 @@ const TabEmail = ({ navigation }) => {
       }
     } catch (error) {
       console.error('Error al enviar correo:', error);
+      console.log(email);
       Alert.alert('Error', 'Ocurrió un error al enviar el correo. Por favor, inténtalo de nuevo.');
     }
   };
