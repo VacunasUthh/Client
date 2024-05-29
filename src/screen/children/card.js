@@ -28,7 +28,7 @@ const Card = ({ navigation, children = {} }) => {
                                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{children.name} {children.lastName} {children.secondLastName}</Text>
                                         <View style={{ flexDirection: 'row' }}>
                                                 <Text style={{ fontSize: 15 }}>Curp: </Text>
-                                                <Text style={{ fontSize: 15, color: '#48A2E2' }}>{children?.rurp}</Text>
+                                                <Text style={{ fontSize: 15, color: '#48A2E2' }}>{children?.curp}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                                 <View style={{ flexDirection: 'row' }}>
