@@ -9,12 +9,15 @@ const useCampaign = () => {
                 images: '',
                 name: '',
                 description: '',
-                date: '',
+                startdate: '',
+                finaldate: '',
                 hour: '',
-                place: '',
-                vaccines: '',
+                state: '',
+                city: '',
+                colony: '',
+                sideeffects: '',
                 disease: '',
-                population: '',
+                age: '',
         }
 
         const [loading, setLoading] = useState(false)
@@ -150,9 +153,12 @@ const useCampaign = () => {
                         return
                 }
 
-                formCampaign.date = formCampaign.date.split(',')
+                formCampaign.startdate = formCampaign.date.split(',')
+                formCampaign.finaldate = formCampaign.date.split(',')
                 formCampaign.hour = formCampaign.hour.split(',')
-                formCampaign.place = formCampaign.place.split(',')
+                formCampaign.state = formCampaign.place.split(',')
+                formCampaign.city = formCampaign.place.split(',')
+                formCampaign.colony = formCampaign.place.split(',')
                 formCampaign.vaccines = formCampaign.vaccines.split(',')
                 formCampaign.disease = formCampaign.disease.split(',')
                 formCampaign.population = formCampaign.population.split(',')

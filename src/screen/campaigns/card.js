@@ -20,13 +20,13 @@ const Card = ({ route, session, getCampaigns, deleteCampaign }) => {
                                         borderRadius: 10,
                                         borderBottomLeftRadius: session?.typeUser == 'trabajador' && route?.name == 'campaigns' ? 0 : 10,
                                         borderBottomRightRadius: session?.typeUser == 'trabajador' && route?.name == 'campaigns' ? 0 : 10,
-                                        height: 250,
+                                        height: '95%',
                                         shadowColor: "#000",
                                         shadowOffset: {
                                                 width: 0,
                                                 height: 2,
                                         },
-                                        maxWidth: width / 2 - 20,
+                                        maxWidth: width / 2 - 10,
                                         shadowOpacity: 0.23,
                                         shadowRadius: 2.62,
                                         elevation: 4,
@@ -47,7 +47,8 @@ const Card = ({ route, session, getCampaigns, deleteCampaign }) => {
                                 )}
                                 <Text style={{ textAlign: 'center', padding: 5, fontWeight: 'bold', fontSize: 20, color: '#48A2E2' }}>{campaign.name}</Text>
                                 <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>Fecha:</Text>
-                                <Text style={{ textAlign: 'center', fontSize: 16, color: '#48A2E2' }}>{campaign.date.toString()}</Text>
+                                <Text style={{ textAlign: 'center', fontSize: 16, color: '#48A2E2' }}>{campaign.startdate}</Text>
+                                <Text style={{ textAlign: 'center', fontSize: 16, color: '#48A2E2' }}>{campaign.finaldate}</Text>
                                 {session?.typeUser == 'trabajador' && route?.name == 'campaigns' && (
                                         <View style={{ width: '100%', flexDirection: 'row', position: 'absolute', bottom: -35, left: 0, zIndex: 5, borderBottomEndRadius: 10, borderBottomStartRadius: 10 }}>
                                                 <Button

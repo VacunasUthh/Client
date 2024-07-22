@@ -1,31 +1,36 @@
-import { View, Text, Dimensions } from 'react-native'
-import React, { useState } from 'react'
-import { ScrollView } from 'react-native-gesture-handler'
-import { NoImgVaccineIcon } from '../../icons/iconsSvg'
-import { Button, Icon, Image } from '@rneui/themed'
-const { width } = Dimensions.get('screen')
+import { View, Text, Dimensions, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { NoImgVaccineIcon } from '../../icons/iconsSvg';
+import { Button, Icon, Image } from '@rneui/themed';
+
+const { width } = Dimensions.get('screen');
 
 const CampaignDetails = ({ route, navigation }) => {
-
-        const { name, description, image, images, disease, vaccines, application, place, population, hour, date } = route.params.campaign
         if (!route.params?.campaign) {
                 return (
                         <View style={{ width: '100%', alignItems: 'center' }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 16, marginVertical: 20 }}>hubo un error al buscar esta campaña</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 16, marginVertical: 20 }}>
+                                        Hubo un error al buscar esta campaña
+                                </Text>
                         </View>
-                )
+                );
         }
 
-        const [itemSelected, setItemSelected] = useState({ name: '', image: require('../../../assets/icons/icons8-calendario-100.png'), item: date })
+        const { name, description, images, state, city, colony, date, startdate, hour, vaccines, sideeffects, age } = route.params.campaign;
+
+        const lugar = `${state}, ${city}, ${colony}`;
+
+        const [itemSelected, setItemSelected] = useState({ name: '', image: require('../../../assets/icons/icons8-calendario-100.png'), item: date });
 
         const handleItemSelected = (item, name, image) => {
-                setItemSelected({ item: item, name, image })
-        }
+                setItemSelected({ item, name, image });
+        };
+
 
         return (
                 <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', paddingBottom: 80 }}>
-                        <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', aspectRatio: 1 / 1 }}>
-                                {images?.length == 0 ? (
+                        <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', aspectRatio: 1 }}>
+                                {images?.length === 0 ? (
                                         <NoImgVaccineIcon size={150} />
                                 ) : (
                                         <Image source={{ uri: images[0] }} style={{ width: width, height: '100%' }} />
@@ -62,20 +67,32 @@ const CampaignDetails = ({ route, navigation }) => {
                                                         <View style={{ flex: 1, alignItems: 'center', gap: 5 }}>
                                                                 <Image source={require('../../../assets/icons/icons8-calendario-100.png')} style={{ width: 40, height: 40 }} />
                                                                 <Button
-                                                                        onPress={() => handleItemSelected(date, 'Fecha', require('../../../assets/icons/icons8-calendario-100.png'))}
-                                                                        title='Fecha' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />} size='sm' color='#FFFFFF' iconPosition='right' containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }} titleStyle={{ color: '#48A2E2', fontSize: 14 }} />
+                                                                        onPress={() => handleItemSelected(startdate, 'Fecha', require('../../../assets/icons/icons8-calendario-100.png'))}
+                                                                        title='Fecha' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />}
+                                                                        size='sm' color='#FFFFFF' iconPosition='right'
+                                                                        containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }}
+                                                                        titleStyle={{ color: '#48A2E2', fontSize: 14 }}
+                                                                />
                                                         </View>
                                                         <View style={{ flex: 1, alignItems: 'center', gap: 5 }}>
                                                                 <Image source={require('../../../assets/icons/icons8-alarma-en-80.png')} style={{ width: 40, height: 40 }} />
                                                                 <Button
                                                                         onPress={() => handleItemSelected(hour, 'Horario', require('../../../assets/icons/icons8-alarma-en-80.png'))}
-                                                                        title='Horario' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />} size='sm' color='#FFFFFF' iconPosition='right' containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }} titleStyle={{ color: '#48A2E2', fontSize: 14 }} />
+                                                                        title='Horario' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />}
+                                                                        size='sm' color='#FFFFFF' iconPosition='right'
+                                                                        containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }}
+                                                                        titleStyle={{ color: '#48A2E2', fontSize: 14 }}
+                                                                />
                                                         </View>
                                                         <View style={{ flex: 1, alignItems: 'center', gap: 5 }}>
                                                                 <Image source={require('../../../assets/icons/icons8-marca-o-100.png')} style={{ width: 40, height: 40 }} />
                                                                 <Button
-                                                                        onPress={() => handleItemSelected(place, 'Lugar', require('../../../assets/icons/icons8-marca-o-100.png'))}
-                                                                        title='Lugar' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />} size='sm' color='#FFFFFF' iconPosition='right' containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }} titleStyle={{ color: '#48A2E2', fontSize: 14 }} />
+                                                                        onPress={() => handleItemSelected(lugar, 'Lugar', require('../../../assets/icons/icons8-marca-o-100.png'))}
+                                                                        title='Lugar' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />}
+                                                                        size='sm' color='#FFFFFF' iconPosition='right'
+                                                                        containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }}
+                                                                        titleStyle={{ color: '#48A2E2', fontSize: 14 }}
+                                                                />
                                                         </View>
                                                 </View>
                                                 <View style={{ flexDirection: 'row', gap: 20 }}>
@@ -83,19 +100,31 @@ const CampaignDetails = ({ route, navigation }) => {
                                                                 <Image source={require('../../../assets/icons/icons8-jeringa-64(1).png')} style={{ width: 40, height: 40 }} />
                                                                 <Button
                                                                         onPress={() => handleItemSelected(vaccines, 'Vacunas', require('../../../assets/icons/icons8-jeringa-64(1).png'))}
-                                                                        title='Vacunas' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />} size='sm' color='#FFFFFF' iconPosition='right' containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }} titleStyle={{ color: '#48A2E2', fontSize: 14 }} />
+                                                                        title='Vacunas' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />}
+                                                                        size='sm' color='#FFFFFF' iconPosition='right'
+                                                                        containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }}
+                                                                        titleStyle={{ color: '#48A2E2', fontSize: 14 }}
+                                                                />
                                                         </View>
                                                         <View style={{ flex: 1, alignItems: 'center', gap: 5 }}>
                                                                 <Image source={require('../../../assets/icons/icons8-enfermedad-100.png')} style={{ width: 40, height: 40 }} />
                                                                 <Button
-                                                                        onPress={() => handleItemSelected(disease, 'Enfermedades', require('../../../assets/icons/icons8-enfermedad-100.png'))}
-                                                                        title='Enfermedades' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />} size='sm' color='#FFFFFF' iconPosition='right' containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }} titleStyle={{ color: '#48A2E2', fontSize: 14 }} />
+                                                                        onPress={() => handleItemSelected(sideeffects, 'Efectos secundarios', require('../../../assets/icons/icons8-enfermedad-100.png'))}
+                                                                        title='Efectos secundarios' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />}
+                                                                        size='sm' color='#FFFFFF' iconPosition='right'
+                                                                        containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }}
+                                                                        titleStyle={{ color: '#48A2E2', fontSize: 14 }}
+                                                                />
                                                         </View>
                                                         <View style={{ flex: 1, alignItems: 'center', gap: 5 }}>
                                                                 <Image source={require('../../../assets/icons/icons8-familia-hombre-mujer-100.png')} style={{ width: 40, height: 40 }} />
                                                                 <Button
-                                                                        onPress={() => handleItemSelected(population, 'Población', require('../../../assets/icons/icons8-familia-hombre-mujer-100.png'))}
-                                                                        title='Población' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />} size='sm' color='#FFFFFF' iconPosition='right' containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }} titleStyle={{ color: '#48A2E2', fontSize: 14 }} />
+                                                                        onPress={() => handleItemSelected(age, 'Edad', require('../../../assets/icons/icons8-familia-hombre-mujer-100.png'))}
+                                                                        title='Edad' icon={<Icon name='plus' type='feather' size={18} color='#48A2E2' />}
+                                                                        size='sm' color='#FFFFFF' iconPosition='right'
+                                                                        containerStyle={{ borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }}
+                                                                        titleStyle={{ color: '#48A2E2', fontSize: 14 }}
+                                                                />
                                                         </View>
                                                 </View>
                                         </View>
@@ -103,22 +132,34 @@ const CampaignDetails = ({ route, navigation }) => {
                                                 <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{itemSelected?.name}</Text>
                                                 <Image source={itemSelected?.image} style={{ width: 40, height: 40, marginVertical: 10 }} />
                                                 <View style={{ width: '100%', gap: 10, justifyContent: 'center', alignItems: 'center' }}>
-                                                        {itemSelected.item && (
+                                                        {Array.isArray(itemSelected.item) ? (
                                                                 itemSelected.item.length > 0 ? (
                                                                         itemSelected.item.map((i, index) => (
-                                                                                <Button key={index} title={i} containerStyle={{ width: '50%', borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }} titleStyle={{ color: '#48A2E2' }} color='transparent' />
+                                                                                <Button
+                                                                                        key={index}
+                                                                                        title={i}
+                                                                                        containerStyle={{ width: '50%', borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }}
+                                                                                        titleStyle={{ color: '#48A2E2' }}
+                                                                                        color='transparent'
+                                                                                />
                                                                         ))
                                                                 ) : (
                                                                         <Text>Sin {itemSelected.name}</Text>
                                                                 )
+                                                        ) : (
+                                                                <Button
+                                                                        title={itemSelected.item}
+                                                                        containerStyle={{ width: '100%', borderWidth: 1, borderRadius: 10, borderColor: '#48A2E2' }}
+                                                                        titleStyle={{ color: '#48A2E2' }}
+                                                                        color='transparent'
+                                                                />
                                                         )}
-
                                                 </View>
                                         </View>
                                 </View>
                         </View>
-                </ScrollView >
-        )
-}
+                </ScrollView>
+        );
+};
 
-export default CampaignDetails
+export default CampaignDetails;
