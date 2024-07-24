@@ -89,7 +89,7 @@ const Vaccines = ({ route, navigation }) => {
                                         </View>
                                         <View style={{ justifyContent: 'center', alignItems: 'center', gap: 5 }}>
                                                 <Image source={require('../../../assets/icons/icons8-atención-96.png')} style={{ width: 30, height: 30 }} />
-                                                <Text style={{ fontSize: 14, fontWeight: 'bold' }}>Pendiente</Text>
+                                                <Text style={{ fontSize: 14, fontWeight: 'bold' }}>Pendiente {children?.name}</Text>
                                         </View>
                                         <View style={{ justifyContent: 'center', alignItems: 'center', gap: 5 }}>
                                                 <Image source={require('../../../assets/icons/icons8-de-acuerdo-96.png')} style={{ width: 30, height: 30 }} />
@@ -102,7 +102,7 @@ const Vaccines = ({ route, navigation }) => {
                                                         scrollEnabled={false}
                                                         horizontal={false}
                                                         data={month}
-                                                        renderItem={({ item }) => <ItemVaccine m={item} />}
+                                                        renderItem={({ item }) => <ItemVaccine m={item} children={children} />}
                                                         keyExtractor={item => item._id.toString()}
                                                         numColumns={2}
                                                 />
