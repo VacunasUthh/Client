@@ -3,12 +3,12 @@ import React, { useContext, useState } from 'react'
 import { Button, Icon, Image } from '@rneui/themed'
 import { NoImgVaccineIcon } from '../../icons/iconsSvg'
 import { GlobalContext } from '../../contexts/globalContext'
-import { API_URL } from "../../utils/constants";
+
 const { width } = Dimensions.get('screen')
 
-const VaccineDetail = ({ route, navigation }) => {
+const VaccineDetailP = ({ route, navigation }) => {
     const { session } = useContext(GlobalContext)
-    const { vaccine, children, month } = route.params;
+    const { vaccine, month} = route.params;
 
     if (!route.params?.vaccine) {
         return (
@@ -18,38 +18,17 @@ const VaccineDetail = ({ route, navigation }) => {
         )
     }
 
-    const { _id, name, application, area, contraindications, description, disease, dose, image, images, town } = route.params.vaccine
+    const {_id, name, application, area, contraindications, description, disease, dose, image, images, town } = route.params.vaccine
     const [itemSelected, setItemSelected] = useState({ item: disease, name: 'Enfermedad', image: require('../../../assets/icons/icons8-lupa-100.png') })
-    const [confirmedVaccines, setConfirmedVaccines] = useState({});
-    const [modalVisible, setModalVisible] = useState(false)
+    const [isConfirmed, setIsConfirmed] = useState(false) // Estado para confirmar vacunación
 
     const handleItemSelected = (item, name, image) => {
         setItemSelected({ item: item, name, image })
     }
 
-    const confirmVaccination = async () => {
-        try {
-            const response = await fetch(`${API_URL}/parents/confirm-vaccine`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    childId: children._id,
-                    month: month.month,
-                    vaccineId: _id
-                }),
-            });
-            const result = await response.json();
-            if (response.ok) {
-                setConfirmedVaccines(prevState => ({ ...prevState, [_id]: true }));
-            } else {
-                console.error('Error confirming vaccination:', result);
-            }
-        } catch (error) {
-            console.error('Error confirming vaccination:', error);
-        }
-        setModalVisible(false);
+    const confirmVaccination = () => {
+        setIsConfirmed(true)
+        setModalVisible(false)
     }
 
     return (
@@ -67,10 +46,6 @@ const VaccineDetail = ({ route, navigation }) => {
                         <View style={{ flexDirection: 'row', gap: 5 }}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold', textTransform: 'uppercase' }}>{name}</Text>
                             <Image source={require('../../../assets/icons/icons8-de-acuerdo-96.png')} style={{ width: 30, height: 30 }} />
-                        </View>
-                        <View style={{ width: 100, alignItems: 'center' }}>
-                            <Text style={{ fontSize: 15, color: '#40A46C' }}>Aplicada</Text>
-                            <Text style={{ fontSize: 10 }} numberOfLines={3}>Hospital Regional de la Huasteca-08/02/24</Text>
                         </View>
                     </View>
                     <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Descripción</Text>
@@ -133,52 +108,9 @@ const VaccineDetail = ({ route, navigation }) => {
                             )}
                         </View>
                     </View>
-                    <View style={{ width: '100%', marginTop: 20, alignItems: 'center' }}>
-                        <Button
-                            title={confirmedVaccines[_id] ? "Vacunación Confirmada" : "Confirmar Vacunación"}
-                            onPress={() => setModalVisible(true)}
-                            disabled={confirmedVaccines[_id]}
-                            buttonStyle={{
-                                backgroundColor: confirmedVaccines[_id] ? '#40A46C' : '#48A2E2',
-                                borderRadius: 10,
-                                padding: 10,
-                            }}
-                            titleStyle={{ color: '#FFFFFF', fontSize: 18 }}
-                            containerStyle={{ width: '90%', marginVertical: 10 }}
-                            icon={confirmedVaccines[_id] && <Icon name='check' type='feather' size={18} color='#FFFFFF' />}
-                        />
-                    </View>
                 </View>
             </View>
 
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalText}>¿Estás seguro de que deseas confirmar la vacunación?</Text>
-                        <Text style={styles.modalText}>Ten en cuenta que la enfermera a cargo tendra que dar como aplicada la vacuna.</Text>
-
-                        <View style={styles.modalButtons}>
-                            <Button
-                                title="Cancelar"
-                                onPress={() => setModalVisible(false)}
-                                buttonStyle={styles.cancelButton}
-                                titleStyle={styles.modalButtonText}
-                            />
-                            <Button
-                                title="Confirmar"
-                                onPress={confirmVaccination}
-                                buttonStyle={styles.confirmButton}
-                                titleStyle={styles.modalButtonText}
-                            />
-                        </View>
-                    </View>
-                </View>
-            </Modal>
         </ScrollView>
     )
 }
@@ -225,13 +157,13 @@ const styles = StyleSheet.create({
     },
     cancelButton: {
         backgroundColor: '#E74C3C',
-        padding: 20,
+        padding: 10,
         borderRadius: 10,
         width: '80%',
     },
     confirmButton: {
         backgroundColor: '#48A2E2',
-        padding: 20,
+        padding: 10,
         borderRadius: 10,
         width: '80%',
     },
@@ -241,4 +173,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default VaccineDetail
+export default VaccineDetailP

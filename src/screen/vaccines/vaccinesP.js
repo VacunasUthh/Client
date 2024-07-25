@@ -2,32 +2,14 @@ import { View, Text, ScrollView, FlatList, Image } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, ButtonGroup, Icon } from '@rneui/themed';
 import { GlobalContext } from '../../contexts/globalContext';
-import ItemVaccine from '../parentAndVaccines/itemVaccine';
 import useMonth from '../../hooks/useMonth';
-import useChildren from '../../hooks/useChildren';
+import ItemVaccinePublic from '../parentAndVaccines/itemVaccinePublic';
 
-const Vaccines = ({ route, navigation }) => {
+const VaccinesPublic = ({ route, navigation }) => {
     const [buttonSelected, setButtonSelected] = useState(0);
     const { session } = useContext(GlobalContext);
-    const [children, setChildren] = useState(null);
-    const { getChildren, children: childrenVaccine } = useChildren();
     const { month, getAllMonths } = useMonth();
     const [filteredMonth, setFilteredMonth] = useState([]);
-    const params = route.params;
-
-    useEffect(() => {
-        if (params?.children) {
-            setChildren(params.children);
-        } else {
-            getChildren(session?._id);
-        }
-    }, [params]);
-
-    useEffect(() => {
-        if (!params?.children) {
-            setChildren(childrenVaccine);
-        }
-    }, [childrenVaccine]);
 
     useEffect(() => {
         getAllMonths();
@@ -51,22 +33,17 @@ const Vaccines = ({ route, navigation }) => {
     }, [navigation, session?.typeUser]);
 
     useEffect(() => {
-        // Filtrar meses que tienen al menos una vacuna
         const monthsWithVaccines = month.filter(item => item.vaccines && item.vaccines.length > 0);
-
-        // Ordenar los meses por el número del mes
         const sortedMonths = monthsWithVaccines.sort((a, b) => a.month - b.month);
-        
-        // Filtrar según el rango seleccionado
         const filterByRange = (months, range) => {
             switch (range) {
-                case 0: // '0-6'
+                case 0: 
                     return months.filter(item => item.month >= 1 && item.month <= 6);
-                case 1: // '7-24'
+                case 1:
                     return months.filter(item => item.month >= 7 && item.month <= 24);
-                case 2: // '36-72'
+                case 2:
                     return months.filter(item => item.month >= 36 && item.month <= 72);
-                case 3: // 'Completo'
+                case 3:
                     return months;
                 default:
                     return months;
@@ -110,27 +87,13 @@ const Vaccines = ({ route, navigation }) => {
                         />
                     </ScrollView>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', gap: 5 }}>
-                        <Image source={require('../../../assets/icons/icons8-reloj-64.png')} style={{ width: 30, height: 30 }} />
-                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>Definida</Text>
-                    </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', gap: 5 }}>
-                        <Image source={require('../../../assets/icons/icons8-atención-96.png')} style={{ width: 30, height: 30 }} />
-                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>Pendiente {children?.name}</Text>
-                    </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', gap: 5 }}>
-                        <Image source={require('../../../assets/icons/icons8-de-acuerdo-96.png')} style={{ width: 30, height: 30 }} />
-                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>Aplicada</Text>
-                    </View>
-                </View>
                 <View style={{ flex: 1, width: '100%', gap: 20 }}>
                     <View style={{ flex: 1 }}>
                         <FlatList
                             scrollEnabled={false}
                             horizontal={false}
                             data={filteredMonth}
-                            renderItem={({ item }) => <ItemVaccine m={item} children={children} />}
+                            renderItem={({ item }) => <ItemVaccinePublic m={item} />}
                             keyExtractor={item => item._id.toString()}
                             numColumns={2}
                         />
@@ -141,4 +104,4 @@ const Vaccines = ({ route, navigation }) => {
     );
 }
 
-export default React.memo(Vaccines);
+export default React.memo(VaccinesPublic);

@@ -5,6 +5,7 @@ import { Button, Icon, Image } from '@rneui/themed'
 import { babyIcon, jeringaIcon, settingIcon } from '../icons/iconSrc'
 import Children from '../screen/children/children'
 import Vaccines from '../screen/vaccines/vaccines'
+import VaccinesPublic from '../screen/vaccines/vaccinesP'
 import Settings from '../screen/settings/settings'
 import ProfileChildren from '../screen/profileChildren/profileChildren'
 import PersonalInfoChildren from '../screen/personalInfoChildren/personalInfoChildren'
@@ -35,6 +36,9 @@ import ParentsChildren from '../screen/parentsChildren/parentsChildren'
 import CampaignDetails from '../screen/campaignDetails/campaignDetails'
 import VaccinationCalendar from '../screen/vaccinationCalendar/vaccinationCalendar'
 import AddChildren from '../screen/addChildren/addChildren'
+import vaccinesP from '../screen/vaccines/vaccinesP'
+import vaccineListP from '../screen/vaccineList/vaccineListP'
+import VaccineDetailP from '../screen/vaccineDetail/vaccineDetailP'
 
 const Tabs = createBottomTabNavigator()
 
@@ -482,42 +486,7 @@ const TabScreen = () => {
                                                         headerTintColor: '#FFFFFF',
                                                 })}
                                         />
-                                        <Tabs.Screen
-                                                name='vaccines'
-                                                component={Vaccines}
-                                                options={({ route, navigation }) => ({
-                                                        title: null,
-                                                        tabBarButton: () => null,
-                                                        tabBarIcon: () => {
-                                                                return (
-                                                                        <Image source={jeringaIcon} style={{ width: 30, height: 30 }} />
-                                                                )
-                                                        },
-                                                        headerStyle: {
-                                                                backgroundColor: '#48A2E2',
-                                                        },
-                                                        headerLeft: () => (
-                                                                <Button
-                                                                        color='transparent'
-                                                                        icon={
-                                                                                <Icon
-                                                                                        type='ionicons'
-                                                                                        name='arrow-back'
-                                                                                        size={30}
-                                                                                        color='#FFFFFF'
-                                                                                />
-                                                                        }
-                                                                        onPress={() => navigation.navigate('children')}
-                                                                />
-                                                        ),
-                                                        headerTitle: 'Vacunas',
-                                                        headerTitleAlign: 'center',
-                                                        headerRight: () => (
-                                                                <Image source={require('../../assets/MEDICAL-(Instagram Story).png')} style={{ width: 45, height: 45, marginRight: 5 }} />
-                                                        ),
-                                                        headerTintColor: '#FFFFFF',
-                                                })}
-                                        />
+                                        
                                 </>
                         ) : (
                                 <>
@@ -555,8 +524,45 @@ const TabScreen = () => {
                                                 })}
                                         />
                                         <Tabs.Screen
-                                                name='vaccines'
+                                                name='vaccinesChildren'
                                                 component={Vaccines}
+                                                options={({ route, navigation }) => ({
+                                                        title: null,
+                                                        tabBarButton: () => null,
+                                                        tabBarIcon: () => {
+                                                                return (
+                                                                        <Image source={jeringaIcon} style={{ width: 30, height: 30 }} />
+                                                                )
+                                                        },
+                                                        headerStyle: {
+                                                                backgroundColor: '#48A2E2',
+                                                        },
+                                                        headerLeft: () => (
+                                                                <Button
+                                                                        color='transparent'
+                                                                        icon={
+                                                                                <Icon
+                                                                                        type='ionicons'
+                                                                                        name='arrow-back'
+                                                                                        size={30}
+                                                                                        color='#FFFFFF'
+                                                                                />
+                                                                        }
+                                                                        onPress={() => navigation.navigate('children')}
+                                                                />
+                                                        ),
+                                                        headerTitle: 'Vacunas',
+                                                        headerTitleAlign: 'center',
+                                                        headerRight: () => (
+                                                                <Image source={require('../../assets/MEDICAL-(Instagram Story).png')} style={{ width: 45, height: 45, marginRight: 5 }} />
+                                                        ),
+                                                        headerTintColor: '#FFFFFF',
+                                                })}
+                                        />
+
+                                        <Tabs.Screen
+                                                name='vaccines'
+                                                component={VaccinesPublic}
                                                 options={({ route, navigation }) => ({
                                                         title: null,
                                                         tabBarIcon: () => {
@@ -655,7 +661,7 @@ const TabScreen = () => {
                         />
                         <Tabs.Screen
                                 name='vaccinelist'
-                                component={VaccineList}
+                                component={vaccineListP}
                                 options={({ route, navigation }) => ({
                                         title: null,
                                         tabBarButton: () => null,
@@ -685,8 +691,39 @@ const TabScreen = () => {
                                 })}
                         />
                         <Tabs.Screen
+                                name='vaccinelistChildren'
+                                component={VaccineList}
+                                options={({ route, navigation }) => ({
+                                        title: null,
+                                        tabBarButton: () => null,
+                                        headerStyle: {
+                                                backgroundColor: '#48A2E2',
+                                        },
+                                        headerLeft: () => (
+                                                <Button
+                                                        color='transparent'
+                                                        icon={
+                                                                <Icon
+                                                                        type='ionicons'
+                                                                        name='arrow-back'
+                                                                        size={30}
+                                                                        color='#FFFFFF'
+                                                                />
+                                                        }
+                                                        onPress={() => navigation.navigate('vaccinesChildren')}
+                                                />
+                                        ),
+                                        headerTitle: 'Vacunas',
+                                        headerTitleAlign: 'center',
+                                        headerRight: () => (
+                                                <Image source={require('../../assets/MEDICAL-(Instagram Story).png')} style={{ width: 45, height: 45, marginRight: 5 }} />
+                                        ),
+                                        headerTintColor: '#FFFFFF',
+                                })}
+                        />
+                        <Tabs.Screen
                                 name='vaccinedetail'
-                                component={VaccineDetail}
+                                component={VaccineDetailP}
                                 options={({ route, navigation }) => ({
                                         title: null,
                                         tabBarButton: () => null,
@@ -705,6 +742,37 @@ const TabScreen = () => {
                                                                 />
                                                         }
                                                         onPress={() => navigation.navigate('vaccines')}
+                                                />
+                                        ),
+                                        headerTitle: 'Vacunas',
+                                        headerTitleAlign: 'center',
+                                        headerRight: () => (
+                                                <Image source={require('../../assets/MEDICAL-(Instagram Story).png')} style={{ width: 45, height: 45, marginRight: 5 }} />
+                                        ),
+                                        headerTintColor: '#FFFFFF',
+                                })}
+                        />
+                        <Tabs.Screen
+                                name='vaccinedetailChildren'
+                                component={VaccineDetail}
+                                options={({ route, navigation }) => ({
+                                        title: null,
+                                        tabBarButton: () => null,
+                                        headerStyle: {
+                                                backgroundColor: '#48A2E2',
+                                        },
+                                        headerLeft: () => (
+                                                <Button
+                                                        color='transparent'
+                                                        icon={
+                                                                <Icon
+                                                                        type='ionicons'
+                                                                        name='arrow-back'
+                                                                        size={30}
+                                                                        color='#FFFFFF'
+                                                                />
+                                                        }
+                                                        onPress={() => navigation.navigate('vaccinesChildren')}
                                                 />
                                         ),
                                         headerTitle: 'Vacunas',

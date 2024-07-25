@@ -2,14 +2,14 @@ import { Button, Icon, Image } from "@rneui/themed";
 import { Dimensions, Text, TouchableOpacity, View } from "react-native";
 import { NoImgVaccineIcon } from "../../icons/iconsSvg";
 import { useNavigation } from "@react-navigation/native";
+
 const { width } = Dimensions.get('window');
 
-const ItemVaccine = ({ m, children, deleteMonth = null }) => {
+const ItemVaccinePublic = ({ m, deleteMonth = null }) => {
     const { navigate } = useNavigation();
 
     const handlePress = () => {
-        const childName = children.length > 0 ? children[0].name : '';
-        navigate('vaccinelistChildren', { children, month: m, childName });
+        navigate('vaccinelist', { month: m});
     };
 
     return (
@@ -81,4 +81,4 @@ const ItemVaccine = ({ m, children, deleteMonth = null }) => {
     );
 };
 
-export default ItemVaccine;
+export default ItemVaccinePublic;

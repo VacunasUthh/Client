@@ -4,8 +4,7 @@ import { Image } from '@rneui/themed'
 import useMonth from '../../hooks/useMonth'
 import { NoImgVaccineIcon } from '../../icons/iconsSvg'
 
-const VaccineList = ({ route, navigation }) => {
-        const { children } = route.params
+const VaccineListP = ({ route, navigation }) => {
         const month = route.params.month
         if (month === undefined) return null
         const { getVaccinesForMonth, loading, vaccines } = useMonth()
@@ -43,13 +42,13 @@ const VaccineList = ({ route, navigation }) => {
                                 paddingHorizontal: 10,
                         }}>
                                 <Image source={require('../../../assets/icons/icons8-calendario-100.png')} style={{ width: 30, height: 30 }} />
-                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Mes {month?.month }--- {children?.name}</Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Mes {month?.month }</Text>
                                 <Image source={require('../../../assets/icons/icons8-calendario-100.png')} style={{ width: 30, height: 30 }} />
                         </View>
                         <View style={{ flex: 1, width: '100%', paddingVertical: 20, gap: 20 }}>
                                 {vaccines.map((v, i) => (
                                         <TouchableOpacity activeOpacity={0.8} key={v._id}
-                                                onPress={() => navigation.navigate('vaccinedetailChildren', { vaccine: v ,children,month})}
+                                                onPress={() => navigation.navigate('vaccinedetail', { vaccine: v , month})}
                                                 style={{
                                                         width: '100%',
                                                         alignItems: 'center',
@@ -93,4 +92,4 @@ const VaccineList = ({ route, navigation }) => {
         )
 }
 
-export default React.memo(VaccineList)
+export default React.memo(VaccineListP)
