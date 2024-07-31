@@ -51,22 +51,18 @@ const Vaccines = ({ route, navigation }) => {
     }, [navigation, session?.typeUser]);
 
     useEffect(() => {
-        // Filtrar meses que tienen al menos una vacuna
         const monthsWithVaccines = month.filter(item => item.vaccines && item.vaccines.length > 0);
-
-        // Ordenar los meses por el número del mes
         const sortedMonths = monthsWithVaccines.sort((a, b) => a.month - b.month);
         
-        // Filtrar según el rango seleccionado
         const filterByRange = (months, range) => {
             switch (range) {
-                case 0: // '0-6'
-                    return months.filter(item => item.month >= 1 && item.month <= 6);
-                case 1: // '7-24'
+                case 0: 
+                    return months.filter(item => item.month >= 0 && item.month <= 6);
+                case 1: 
                     return months.filter(item => item.month >= 7 && item.month <= 24);
-                case 2: // '36-72'
+                case 2: 
                     return months.filter(item => item.month >= 36 && item.month <= 72);
-                case 3: // 'Completo'
+                case 3: 
                     return months;
                 default:
                     return months;
@@ -117,7 +113,7 @@ const Vaccines = ({ route, navigation }) => {
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', gap: 5 }}>
                         <Image source={require('../../../assets/icons/icons8-atención-96.png')} style={{ width: 30, height: 30 }} />
-                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>Pendiente {children?.name}</Text>
+                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>Pendiente</Text>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', gap: 5 }}>
                         <Image source={require('../../../assets/icons/icons8-de-acuerdo-96.png')} style={{ width: 30, height: 30 }} />

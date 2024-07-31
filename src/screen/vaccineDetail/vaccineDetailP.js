@@ -49,7 +49,7 @@ const VaccineDetailP = ({ route, navigation }) => {
                         </View>
                     </View>
                     <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Descripción</Text>
-                    <Text>{description}</Text>
+                    <Text style={styles.justifiedText}>{description}</Text>
                     <View style={{ width: '100%', paddingVertical: 10 }}>
                         <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', paddingVertical: 10 }}>Información adicional</Text>
                         <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30 }}>
@@ -170,7 +170,11 @@ const styles = StyleSheet.create({
     modalButtonText: {
         color: '#FFFFFF',
         fontSize: 16,
-    }
+    },
+    justifiedText: {
+        fontSize: 16,
+        textAlign: 'justify',
+    },
 })
 
 export default VaccineDetailP

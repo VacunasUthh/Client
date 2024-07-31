@@ -1,31 +1,32 @@
-import { View, Text, ScrollView, Dimensions, Modal, StyleSheet } from 'react-native'
-import React, { useContext, useState } from 'react'
-import { Button, Icon, Image } from '@rneui/themed'
-import { NoImgVaccineIcon } from '../../icons/iconsSvg'
-import { GlobalContext } from '../../contexts/globalContext'
+import { View, Text, ScrollView, Dimensions, Modal, StyleSheet } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { Button, Icon, Image } from '@rneui/themed';
+import { NoImgVaccineIcon } from '../../icons/iconsSvg';
+import { GlobalContext } from '../../contexts/globalContext';
 import { API_URL } from "../../utils/constants";
-const { width } = Dimensions.get('screen')
+
+const { width } = Dimensions.get('screen');
 
 const VaccineDetail = ({ route, navigation }) => {
-    const { session } = useContext(GlobalContext)
+    const { session } = useContext(GlobalContext);
     const { vaccine, children, month } = route.params;
 
-    if (!route.params?.vaccine) {
+    if (!vaccine) {
         return (
             <View>
                 <Text>Hubo un error al buscar esta vacuna</Text>
             </View>
-        )
+        );
     }
 
-    const { _id, name, application, area, contraindications, description, disease, dose, image, images, town } = route.params.vaccine
-    const [itemSelected, setItemSelected] = useState({ item: disease, name: 'Enfermedad', image: require('../../../assets/icons/icons8-lupa-100.png') })
+    const { _id, name, application, area, contraindications, description, disease, dose, images, town } = vaccine;
+    const [itemSelected, setItemSelected] = useState({ item: disease, name: 'Enfermedad', image: require('../../../assets/icons/icons8-lupa-100.png') });
     const [confirmedVaccines, setConfirmedVaccines] = useState({});
-    const [modalVisible, setModalVisible] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false);
 
     const handleItemSelected = (item, name, image) => {
-        setItemSelected({ item: item, name, image })
-    }
+        setItemSelected({ item, name, image });
+    };
 
     const confirmVaccination = async () => {
         try {
@@ -50,15 +51,15 @@ const VaccineDetail = ({ route, navigation }) => {
             console.error('Error confirming vaccination:', error);
         }
         setModalVisible(false);
-    }
+    };
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', paddingBottom: 80 }}>
             <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', aspectRatio: 1 / 1 }}>
-                {images.length == 0 ? (
+                {images.length === 0 ? (
                     <NoImgVaccineIcon size={150} />
                 ) : (
-                    <Image source={{ uri: images[0] }} style={{ width: width, aspectRatio: 1 / 1 }} />
+                    <Image source={{ uri: images[0] }} style={{ width, aspectRatio: 1 / 1 }} />
                 )}
             </View>
             <View style={{ width: '100%', padding: 10, justifyContent: 'center', alignItems: 'flex-start' }}>
@@ -74,7 +75,7 @@ const VaccineDetail = ({ route, navigation }) => {
                         </View>
                     </View>
                     <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Descripción</Text>
-                    <Text>{description}</Text>
+                    <Text style={styles.justifiedText}>{description}</Text>
                     <View style={{ width: '100%', paddingVertical: 10 }}>
                         <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', paddingVertical: 10 }}>Información adicional</Text>
                         <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30 }}>
@@ -160,7 +161,7 @@ const VaccineDetail = ({ route, navigation }) => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalText}>¿Estás seguro de que deseas confirmar la vacunación?</Text>
-                        <Text style={styles.modalText}>Ten en cuenta que la enfermera a cargo tendra que dar como aplicada la vacuna.</Text>
+                        <Text style={styles.modalText}>Ten en cuenta que la enfermera a cargo tendrá que dar como aplicada la vacuna.</Text>
 
                         <View style={styles.modalButtons}>
                             <Button
@@ -180,25 +181,20 @@ const VaccineDetail = ({ route, navigation }) => {
                 </View>
             </Modal>
         </ScrollView>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     card: {
         width: '100%',
-        gap: 10,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-        elevation: 4,
+        padding: 10,
         borderRadius: 10,
-        paddingVertical: 10,
-        backgroundColor: '#FFFFFF',
-        paddingHorizontal: 10,
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 5,
     },
     modalContainer: {
         flex: 1,
@@ -238,7 +234,11 @@ const styles = StyleSheet.create({
     modalButtonText: {
         color: '#FFFFFF',
         fontSize: 16,
-    }
-})
+    },
+    justifiedText: {
+        fontSize: 16,
+        textAlign: 'justify',
+    },
+});
 
-export default VaccineDetail
+export default VaccineDetail;

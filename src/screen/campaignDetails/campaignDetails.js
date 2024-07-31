@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, ScrollView } from 'react-native';
+import { View, Text, Dimensions, ScrollView ,StyleSheet} from 'react-native';
 import React, { useState } from 'react';
 import { NoImgVaccineIcon } from '../../icons/iconsSvg';
 import { Button, Icon, Image } from '@rneui/themed';
@@ -60,7 +60,7 @@ const CampaignDetails = ({ route, navigation }) => {
                                                 </View>
                                         </View>
                                         <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Descripción</Text>
-                                        <Text>{description}</Text>
+                                        <Text style={styles.justifiedText}>{description}</Text>
                                         <View style={{ width: '100%', paddingVertical: 10 }}>
                                                 <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', paddingVertical: 10 }}>Información adicional</Text>
                                                 <View style={{ flexDirection: 'row', gap: 20, marginBottom: 30 }}>
@@ -161,5 +161,11 @@ const CampaignDetails = ({ route, navigation }) => {
                 </ScrollView>
         );
 };
+const styles = StyleSheet.create({
+        justifiedText: {
+            fontSize: 15,
+            textAlign: 'justify',
+        },
+    });
 
 export default CampaignDetails;

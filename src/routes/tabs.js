@@ -486,7 +486,7 @@ const TabScreen = () => {
                                                         headerTintColor: '#FFFFFF',
                                                 })}
                                         />
-                                        
+
                                 </>
                         ) : (
                                 <>
@@ -710,7 +710,7 @@ const TabScreen = () => {
                                                                         color='#FFFFFF'
                                                                 />
                                                         }
-                                                        onPress={() => navigation.navigate('vaccinesChildren')}
+                                                        onPress={() => navigation.navigate('vaccinesChildren', { children: route.params.children, month: route.params.month })}
                                                 />
                                         ),
                                         headerTitle: 'Vacunas',
@@ -721,6 +721,8 @@ const TabScreen = () => {
                                         headerTintColor: '#FFFFFF',
                                 })}
                         />
+
+
                         <Tabs.Screen
                                 name='vaccinedetail'
                                 component={VaccineDetailP}
@@ -772,7 +774,7 @@ const TabScreen = () => {
                                                                         color='#FFFFFF'
                                                                 />
                                                         }
-                                                        onPress={() => navigation.navigate('vaccinesChildren')}
+                                                        onPress={() => navigation.navigate('vaccinelistChildren', { children: route.params.children, month: route.params.month })}
                                                 />
                                         ),
                                         headerTitle: 'Vacunas',
@@ -783,6 +785,7 @@ const TabScreen = () => {
                                         headerTintColor: '#FFFFFF',
                                 })}
                         />
+
                         <Tabs.Screen
                                 name='hospitaldetail'
                                 component={HospitalDetail}

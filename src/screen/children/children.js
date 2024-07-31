@@ -1,45 +1,69 @@
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
-import { Button, ButtonGroup, Icon, Image, SearchBar } from '@rneui/themed'
-import Card from './card'
-import useChildren from '../../hooks/useChildren'
-import { GlobalContext } from '../../contexts/globalContext'
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, ButtonGroup, Image, SearchBar } from '@rneui/themed';
+import Card from './card';
+import useChildren from '../../hooks/useChildren';
+import { GlobalContext } from '../../contexts/globalContext';
 
 const Children = ({ route, navigation }) => {
+    const { session } = useContext(GlobalContext);
+    const { children, getChildren, loading } = useChildren();
 
-    const { session } = useContext(GlobalContext)
-    const { children, getChildren, loading } = useChildren()
-
-    const [searchText, setSearchText] = useState('')
-    const [filteredChildren, setFilteredChildren] = useState([])
-    const [buttonSelected, setButtonSelected] = useState(0)
+    const [searchText, setSearchText] = useState('');
+    const [filteredChildren, setFilteredChildren] = useState([]);
+    const [buttonSelected, setButtonSelected] = useState(0);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             if (session) {
-                getChildren(session?._id)
+                getChildren(session?._id);
             }
-        })
-        return unsubscribe
-    }, [navigation])
+        });
+        return unsubscribe;
+    }, [navigation]);
 
     useEffect(() => {
-        if (searchText) {
-            const filtered = children.filter(child => 
-                child.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                child.lastName.toLowerCase().includes(searchText.toLowerCase()) ||
-                child.secondLastName.toLowerCase().includes(searchText.toLowerCase())
-            )
-            setFilteredChildren(filtered)
+        if (searchText) {+
+            filterChildren();
         } else {
-            setFilteredChildren(children)
+            applyFilter(buttonSelected);
         }
-    }, [searchText, children])
+    }, [searchText, children, buttonSelected]);
+
+    const filterChildren = () => {
+        const filtered = children.filter(child =>
+            child.name.toLowerCase().includes(searchText.toLowerCase()) ||
+            child.lastName.toLowerCase().includes(searchText.toLowerCase()) ||
+            child.secondLastName.toLowerCase().includes(searchText.toLowerCase())
+        );
+        applyFilter(buttonSelected, filtered);
+    };
+
+    const applyFilter = (selectedIndex, list = children) => {
+        let filtered = list;
+
+        switch (selectedIndex) {
+            case 1: 
+                filtered = list.filter(child =>
+                    child.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                    child.lastName.toLowerCase().includes(searchText.toLowerCase()) ||
+                    child.secondLastName.toLowerCase().includes(searchText.toLowerCase())
+                );
+                break;
+            case 2: 
+                filtered = list.filter(child => child.age && child.age >= 0);
+                break;
+            default: 
+                filtered = list;
+        }
+
+        setFilteredChildren(filtered);
+    };
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 10, alignItems: 'center', paddingBottom: 80 }}>
             <SearchBar
-                placeholder="Search"
+                placeholder="Buscar"
                 containerStyle={{ width: '100%', backgroundColor: 'transparent', borderWidth: 0 }}
                 inputContainerStyle={{ backgroundColor: 'white', borderRadius: 10 }}
                 inputStyle={{ backgroundColor: 'white', borderRadius: 10 }}
@@ -61,17 +85,17 @@ const Children = ({ route, navigation }) => {
                 <Button
                     title='Esquema'
                     color='transparent'
-                    //onPress={() => navigation.navigate('scheme')}
                     icon={<Image source={require('../../../assets/icons/icons8-calendario-100.png')} style={{ width: 25, height: 25 }} />}
                     titleStyle={{ color: '#48A2E2', fontWeight: 'bold', fontSize: 18 }}
                 />
             </View>
             <View style={{ width: '100%' }}>
                 <ButtonGroup
-                    buttons={['Todo', 'Nombre', 'Edad', 'Estado']}
+                    buttons={['Todo', 'Nombre', 'Edad','Estado']}
                     selectedIndex={buttonSelected}
                     onPress={(value) => {
-                        setButtonSelected(value)
+                        setButtonSelected(value);
+                        applyFilter(value);
                     }}
                     innerBorderStyle={{ width: 0 }}
                     selectedButtonStyle={{ backgroundColor: '#48A2E2' }}
@@ -105,7 +129,8 @@ const Children = ({ route, navigation }) => {
                 />
             </View>
         </ScrollView>
-    )
-}
+    );
+};
 
-export default Children
+export default Children;
+
