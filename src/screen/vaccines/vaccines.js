@@ -61,7 +61,7 @@ const Vaccines = ({ route, navigation }) => {
                 case 1: 
                     return months.filter(item => item.month >= 7 && item.month <= 24);
                 case 2: 
-                    return months.filter(item => item.month >= 36 && item.month <= 72);
+                    return months.filter(item => item.month >= 25 && item.month <= 72);
                 case 3: 
                     return months;
                 default:

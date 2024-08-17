@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Dimensions, Modal, StyleSheet } from 'react-native';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Button, Icon, Image } from '@rneui/themed';
 import { NoImgVaccineIcon } from '../../icons/iconsSvg';
 import { GlobalContext } from '../../contexts/globalContext';
@@ -21,8 +21,26 @@ const VaccineDetail = ({ route, navigation }) => {
 
     const { _id, name, application, area, contraindications, description, disease, dose, images, town } = vaccine;
     const [itemSelected, setItemSelected] = useState({ item: disease, name: 'Enfermedad', image: require('../../../assets/icons/icons8-lupa-100.png') });
-    const [confirmedVaccines, setConfirmedVaccines] = useState({});
+    const [confirmedVaccines, setConfirmedVaccines] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
+
+    useEffect(() => {
+        const fetchConfirmedVaccines = async () => {
+            try {
+                const response = await fetch(`${API_URL}/parents/confirmed-vaccines/${children._id}`);
+                const result = await response.json();
+                if (response.ok) {
+                    setConfirmedVaccines(result);
+                } else {
+                    console.error('Error fetching confirmed vaccines:', result);
+                }
+            } catch (error) {
+                console.error('Error fetching confirmed vaccines:', error);
+            }
+        };
+
+        fetchConfirmedVaccines();
+    }, [children._id]);
 
     const handleItemSelected = (item, name, image) => {
         setItemSelected({ item, name, image });
@@ -43,7 +61,7 @@ const VaccineDetail = ({ route, navigation }) => {
             });
             const result = await response.json();
             if (response.ok) {
-                setConfirmedVaccines(prevState => ({ ...prevState, [_id]: true }));
+                setConfirmedVaccines(prevState => [...prevState, { month: month.month, vaccineId: _id }]);
             } else {
                 console.error('Error confirming vaccination:', result);
             }
@@ -52,6 +70,8 @@ const VaccineDetail = ({ route, navigation }) => {
         }
         setModalVisible(false);
     };
+
+    const isVaccineConfirmed = confirmedVaccines.some(vaccine => vaccine.vaccineId === _id);
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', paddingBottom: 80 }}>
@@ -136,17 +156,17 @@ const VaccineDetail = ({ route, navigation }) => {
                     </View>
                     <View style={{ width: '100%', marginTop: 20, alignItems: 'center' }}>
                         <Button
-                            title={confirmedVaccines[_id] ? "Vacunación Confirmada" : "Confirmar Vacunación"}
+                            title={isVaccineConfirmed ? "Vacunación Confirmada" : "Confirmar Vacunación"}
                             onPress={() => setModalVisible(true)}
-                            disabled={confirmedVaccines[_id]}
+                            disabled={isVaccineConfirmed}
                             buttonStyle={{
-                                backgroundColor: confirmedVaccines[_id] ? '#40A46C' : '#48A2E2',
+                                backgroundColor: isVaccineConfirmed ? '#40A46C' : '#48A2E2',
                                 borderRadius: 10,
                                 padding: 10,
                             }}
                             titleStyle={{ color: '#FFFFFF', fontSize: 18 }}
                             containerStyle={{ width: '90%', marginVertical: 10 }}
-                            icon={confirmedVaccines[_id] && <Icon name='check' type='feather' size={18} color='#FFFFFF' />}
+                            icon={isVaccineConfirmed && <Icon name='check' type='feather' size={18} color='#FFFFFF' />}
                         />
                     </View>
                 </View>
@@ -240,5 +260,4 @@ const styles = StyleSheet.create({
         textAlign: 'justify',
     },
 });
-
 export default VaccineDetail;

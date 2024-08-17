@@ -38,11 +38,11 @@ const VaccinesPublic = ({ route, navigation }) => {
         const filterByRange = (months, range) => {
             switch (range) {
                 case 0: 
-                    return months.filter(item => item.month >= 1 && item.month <= 6);
+                    return months.filter(item => item.month >= 0 && item.month <= 6);
                 case 1:
                     return months.filter(item => item.month >= 7 && item.month <= 24);
                 case 2:
-                    return months.filter(item => item.month >= 36 && item.month <= 72);
+                    return months.filter(item => item.month >= 25 && item.month <= 72);
                 case 3:
                     return months;
                 default:

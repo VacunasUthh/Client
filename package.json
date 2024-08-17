@@ -35,6 +35,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "detox": "^20.25.2",
+    "detox-cli": "^20.0.0",
     "react-native-rename": "^3.2.14"
   },
   "private": true
